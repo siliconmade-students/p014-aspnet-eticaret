@@ -1,38 +1,62 @@
-﻿<div class="row">
+﻿@model Product
+
+<div class="row">
     <div class="col-md-6">
 
-        @if (ViewBag.Error != null)
-        {
-            <div class="alert alert-danger" role="alert">
-                @ViewBag.Error
-            </div>
-        }
+        <a asp-action="Index">Ürün Listesine Dön</a> -
+        @Html.ActionLink("Ürün Listesine Dön", "Index")
 
-        <a asp-action="Index">Back to Product List</a> -
-        @Html.ActionLink("Back to Product List", "Index")
-
-        <h1>Create Product</h1>
+        <h1>Ürün Kayıt Formu</h1>
 
         <form asp-action="Create" class="mail_sectin" method="post">
 
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @ViewBag.Error
+                </div>
+            }
+
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @ViewBag.Message
+                </div>
+            }
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+
             <div class="mb-3">
-                <label>Category</label>
-                <select name="CategoryId" class="form-select" asp-items="@ViewBag.Categories">
+                <label asp-for="Category"></label>
+                <select asp-for="Category" class="form-select" asp-items="@ViewBag.Categories">
                     <option value="">Please select a category</option>
                 </select>
+                <span asp-validation-for="Category" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label>Product Name</label>
-                <input type="text" class="form-control" placeholder="Product Name" name="Name">
+                <label asp-for="Title"></label>
+                <input type="text" class="form-control" asp-for="Title">
+                <span asp-validation-for="Title" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label>Product Price</label>
-                <input type="text" class="form-control" placeholder="Price" name="Price">
+                <label asp-for="Description"></label>
+                <textarea class="form-control" asp-for="Description"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Price"></label>
+                <input type="number" class="form-control" asp-for="Price">
+                <span asp-validation-for="Price" class="text-danger"></span>
             </div>
 
             <button type="submit" class="btn btn-danger">Save Product</button>
         </form>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
