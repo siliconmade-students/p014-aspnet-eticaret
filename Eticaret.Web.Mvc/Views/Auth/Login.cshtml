@@ -1,1 +1,22 @@
-﻿<h1>Giriş Yap</h1>
+﻿@model LoginViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-4 offset-4">
+            <h1>Giriş Yap</h1>
+            <form asp-action="Login" method="post">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input class="form-control" asp-for="EmailAddress">
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input class="form-control" asp-for="Password">
+                </div>
+
+                <input type="submit" value="Giriş Yap" class="btn btn-primary" />
+            </form>
+        </div>
+    </div>
+</div>

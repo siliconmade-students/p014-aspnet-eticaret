@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Eticaret.Web.Mvc.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Eticaret.Web.Mvc.Controllers
 {
@@ -7,6 +8,12 @@ namespace Eticaret.Web.Mvc.Controllers
         public IActionResult Login()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Login(LoginViewModel lvm)
+        {
+            return View(lvm);
         }
 
         public IActionResult Register()
