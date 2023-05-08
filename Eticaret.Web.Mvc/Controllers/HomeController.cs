@@ -1,5 +1,4 @@
-﻿using Eticaret.Web.Mvc.Data;
-using Eticaret.Web.Mvc.Models;
+﻿using Eticaret.Web.Mvc.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -16,9 +15,10 @@ namespace Eticaret.Web.Mvc.Controllers
 
         public IActionResult Index()
         {
-            var allProducts = FakeDatabase.AllProducts;
+            //var allProducts = FakeDatabase.AllProducts;
 
-            return View(allProducts);
+            //return View(allProducts);
+            return View();
         }
 
         public IActionResult Privacy()

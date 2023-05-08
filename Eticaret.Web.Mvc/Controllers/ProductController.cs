@@ -1,5 +1,4 @@
-﻿using Eticaret.Web.Mvc.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Eticaret.Web.Mvc.Controllers
 {
@@ -7,9 +6,10 @@ namespace Eticaret.Web.Mvc.Controllers
     {
         public IActionResult Index()
         {
-            var allProducts = FakeDatabase.AllProducts;
+            //var allProducts = FakeDatabase.AllProducts;
 
-            return View(allProducts);
+            //return View(allProducts);
+            return View();
         }
 
         // /product/detail/5
