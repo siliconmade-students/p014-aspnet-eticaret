@@ -1,4 +1,6 @@
-﻿namespace Eticaret.Web.Mvc.Models
+﻿using Eticaret.Web.Mvc.Data.Entity;
+
+namespace Eticaret.Web.Mvc.Models
 {
     public class CartProduct
     {
