@@ -25,7 +25,13 @@ namespace Eticaret.Web.Mvc.Data
 
             modelBuilder.Entity<User>().HasData(new List<User>
             {
-                new() { Id = 1, Username = "admin", Password = "123", Email = "admin@eticaret.dev", IsActive = true}
+                new() {
+                    Id = 1,
+                    Username = "admin",
+                    Password = "123",
+                    Email = "admin@eticaret.dev",
+                    IsActive = true
+                }
             });
 
 
