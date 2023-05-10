@@ -1,14 +1,22 @@
 using Eticaret.Web.Mvc.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<EticaretDbContext>();
+builder.Services.AddDbContext<EticaretDbContext>(o =>
+{
+    // appSettings.json içerisindeki Default baðlantý metnini almayý saðlar.
+    string connectionString = builder.Configuration.GetConnectionString("Default");
+    o.UseSqlServer(connectionString);
+});
 
 
 var app = builder.Build();
 
+// Code First (1. Ensure, 2.Migration)
+// Bu kodlama ile veritabanýmýz proje çalýþtýrýldýðýnda oluþturulmuþ olur.
 using (var scope = app.Services.CreateScope())
 {
     // Veritabaný servisine eriþim saðlar.
