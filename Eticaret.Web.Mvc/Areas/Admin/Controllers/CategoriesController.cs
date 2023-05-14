@@ -23,9 +23,14 @@ namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
         // GET: Admin/Categories
         public async Task<IActionResult> Index()
         {
-              return _context.Categories != null ? 
-                          View(await _context.Categories.ToListAsync()) :
-                          Problem("Entity set 'EticaretDbContext.Categories'  is null.");
+            var categories = _context.Categories
+                .Include(e => e.Products);
+
+            var categoryList = await categories.ToListAsync();
+
+            return categoryList != null ?
+                View(categoryList) :
+                Problem("Entity set 'EticaretDbContext.Categories'  is null.");
         }
 
         // GET: Admin/Categories/Details/5
@@ -151,14 +156,14 @@ namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
             {
                 _context.Categories.Remove(category);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CategoryExists(int id)
         {
-          return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

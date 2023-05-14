@@ -23,9 +23,13 @@ namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
         // GET: Admin/Brands
         public async Task<IActionResult> Index()
         {
-              return _context.Brands != null ? 
-                          View(await _context.Brands.ToListAsync()) :
-                          Problem("Entity set 'EticaretDbContext.Brands'  is null.");
+            var brandsList = await _context.Brands
+                .Include(e => e.Products)
+                .ToListAsync();
+
+            return brandsList != null ?
+              View(brandsList) :
+              Problem("Entity set 'EticaretDbContext.Brands'  is null.");
         }
 
         // GET: Admin/Brands/Details/5
@@ -151,14 +155,14 @@ namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
             {
                 _context.Brands.Remove(brand);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool BrandExists(int id)
         {
-          return (_context.Brands?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Brands?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

@@ -21,5 +21,8 @@ public class User
     [MaxLength(100)]
     public string? ActivationCode { get; set; }
 
+    public string? Roles { get; set; }
+    public string? City { get; set; }
+
     public bool IsActive { get; set; }
 }
