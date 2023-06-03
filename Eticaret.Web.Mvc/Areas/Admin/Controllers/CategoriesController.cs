@@ -20,9 +20,14 @@ namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
         // GET: Admin/Categories
         public async Task<IActionResult> Index()
         {
-            return _context.Categories != null ?
-                        View(await _context.Categories.ToListAsync()) :
-                        Problem("Entity set 'EticaretDbContext.Categories'  is null.");
+            var categories = _context.Categories
+                .Include(e => e.Products);
+
+            var categoryList = await categories.ToListAsync();
+
+            return categoryList != null ?
+                View(categoryList) :
+                Problem("Entity set 'EticaretDbContext.Categories'  is null.");
         }
 
         // GET: Admin/Categories/Details/5

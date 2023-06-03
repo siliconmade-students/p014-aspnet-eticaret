@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Eticaret.Data.Entity;
 
@@ -31,4 +32,10 @@ public class Product
     public bool IsActive { get; set; }
     public int? CategoryId { get; set; }
     public int? BrandId { get; set; }
+
+
+    // Navigation Properties
+    //[ForeignKey("CategoryId")]
+    public Category? Category { get; set; }
+    public Brand? Brand { get; set; }
 }

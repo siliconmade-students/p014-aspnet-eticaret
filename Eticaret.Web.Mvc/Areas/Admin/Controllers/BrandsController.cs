@@ -20,9 +20,13 @@ namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
         // GET: Admin/Brands
         public async Task<IActionResult> Index()
         {
-            return _context.Brands != null ?
-                        View(await _context.Brands.ToListAsync()) :
-                        Problem("Entity set 'EticaretDbContext.Brands'  is null.");
+            var brandsList = await _context.Brands
+                .Include(e => e.Products)
+                .ToListAsync();
+
+            return brandsList != null ?
+              View(brandsList) :
+              Problem("Entity set 'EticaretDbContext.Brands'  is null.");
         }
 
         // GET: Admin/Brands/Details/5

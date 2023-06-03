@@ -32,16 +32,22 @@ var app = builder.Build();
 
 // Code First (1. Ensure, 2.Migration)
 // Bu kodlama ile veritabanýmýz proje çalýþtýrýldýðýnda oluþturulmuþ olur.
-using (var scope = app.Services.CreateScope())
+if (app.Environment.IsDevelopment())
 {
-    // Veritabaný servisine eriþim saðlar.
-    var context = scope.ServiceProvider.GetRequiredService<EticaretDbContext>();
+    using (var scope = app.Services.CreateScope())
+    {
+        // Veritabaný servisine eriþim saðlar.
+        var context = scope.ServiceProvider.GetRequiredService<EticaretDbContext>();
 
-    // Veritabanýný sil
-    //context.Database.EnsureDeleted();
+        // Veritabanýný sil
+        //context.Database.EnsureDeleted();
 
-    // Veritabanýný oluþturur
-    context.Database.EnsureCreated();
+        // Veritabanýný oluþturur
+        context.Database.EnsureCreated();
+
+        // Migrationlarý çalýþtýr
+        //context.Database.Migrate();
+    }
 }
 
 // Configure the HTTP request pipeline.

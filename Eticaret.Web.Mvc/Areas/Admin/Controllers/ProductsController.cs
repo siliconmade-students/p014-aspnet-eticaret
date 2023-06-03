@@ -18,20 +18,48 @@ namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
         }
 
         // GET: Admin/Products
-        public async Task<IActionResult> Index(string query)
+        public async Task<IActionResult> Index(string query, string orderColumn, string orderDirection, int page = 1)
         {
-            var products = _context.Products.Select(e => e); // SELECT * FROM Products
+            var products = _context.Products
+                .Include(e => e.Category)
+                .Include(e => e.Brand)
+                .Select(e => e); // SELECT * FROM Products
 
             // Filtreleme
             if (query != null)
             {
+                // SELECT * FROM Products WHERE Title LIKE '%Aranan%' OR Description LIKE '%Aranan%'
                 products = products.Where(e => e.Title.Contains(query) || e.Description.Contains(query));
             }
 
             // Sıralama
-            products = products.OrderByDescending(e => e.Id);
+            // SELECT * FROM Products
+            // WHERE Title LIKE '%Aranan%' OR Description LIKE '%Aranan%'
+            // ORDER BY Title, Price DESC
+            // products = products.OrderBy(e => e.Title).ThenByDescending(e=>e.Price);
+            if (orderColumn == "title" && orderDirection == "az")
+            {
+                products = products.OrderBy(e => e.Title);
+            }
+            else if (orderColumn == "title" && orderDirection == "za")
+            {
+                products = products.OrderByDescending(e => e.Title);
+            }
+            else if (orderColumn == "price" && orderDirection == "az")
+            {
+                products = products.OrderBy(e => e.Price);
+            }
+            else if (orderColumn == "price" && orderDirection == "za")
+            {
+                products = products.OrderByDescending(e => e.Price);
+            }
 
-            // Burada veritabanından çekiyoruz
+            // Sayfalandırma
+            var totalItems = await products.CountAsync(); // Veritabanından toplam kayıt sayısını alır           
+            products = products.Skip((page - 1) * 5).Take(5);
+            ViewBag.TotalPage = Math.Ceiling(totalItems / 5m);
+
+            // Burada veritabanından verileri çekiyoruz
             var productList = await products.ToListAsync();
 
             return productList != null ?

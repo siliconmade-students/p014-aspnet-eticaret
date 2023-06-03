@@ -20,12 +20,24 @@
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Title)
+                <a asp-route-orderColumn="title" asp-route-orderDirection="az">
+                    <i class="fa-solid fa-arrow-down-a-z"></i>
+                </a>
+                <a asp-route-orderColumn="title" asp-route-orderDirection="za">
+                    <i class="fa-solid fa-arrow-down-z-a"></i>
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Price)
+                <a asp-route-orderColumn="price" asp-route-orderDirection="az">
+                    <i class="fa-solid fa-arrow-down-a-z"></i>
+                </a>
+                <a asp-route-orderColumn="price" asp-route-orderDirection="za">
+                    <i class="fa-solid fa-arrow-down-z-a"></i>
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.StockAmount)
@@ -68,10 +80,10 @@
                     @Html.DisplayFor(modelItem => item.IsActive)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CategoryId)
+                    @item.Category.Name
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.BrandId)
+                    @item.Brand.Name
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
@@ -82,3 +94,32 @@
         }
     </tbody>
 </table>
+
+@{
+    var pageStr = Context.Request.Query["page"].ToString();
+    var page = 1;
+    if (pageStr != "") page = Convert.ToInt32(pageStr);
+    var totalPage = Convert.ToInt32(ViewBag.TotalPage);
+}
+<p>Toplam @totalPage sayfa içerisinde @(page). sayfayı görmektesiniz.</p>
+<nav aria-label="...">
+    
+    <ul class="pagination">
+        @if (page > 1)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-route-page="@(page-1)">Previous</a>
+            </li>
+        }
+        @for (int i = 1; i <= totalPage; i++)
+        {
+            <li class="page-item @(page==i ? "active" : "")"><a class="page-link" asp-route-page="@i">@i</a></li>
+        }
+        @if (page < totalPage)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-route-page="@(page+1)">Next</a>
+            </li>
+        }
+    </ul>
+</nav>
