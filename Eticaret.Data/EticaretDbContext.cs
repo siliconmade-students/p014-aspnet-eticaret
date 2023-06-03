@@ -1,7 +1,7 @@
-﻿using Eticaret.Web.Mvc.Data.Entity;
+﻿using Eticaret.Data.Entity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Eticaret.Web.Mvc.Data;
+namespace Eticaret.Data;
 
 public class EticaretDbContext : DbContext
 {
@@ -33,9 +33,17 @@ public class EticaretDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // FluentAPI ile bir entity modelinin özellikleri ayarlanabilir.
-        modelBuilder.Entity<Category>().Property("Id").UseIdentityColumn();
-        modelBuilder.Entity<Category>().Property("Name").IsRequired().HasMaxLength(100);
+        // 1.Entity sınıfın içinde property üstüne Attribute kullanarak ayarlanabilir.
+        // [MaxLength(200)] public string Name { get; set; }
+
+        // 2.FluentAPI ile bir entity modelinin özellikleri ayarlanabilir.
+        //modelBuilder.Entity<Category>().Property("Id").UseIdentityColumn();
+        //modelBuilder.Entity<Category>().Property("Name").IsRequired().HasMaxLength(100);
+
+        // 3.GroupConfiguration ile ayarlanabilir. CategoryConfigration.cs içerisinde ayarlanır.
+        //new CategoryConfiguration().Configure(modelBuilder.Entity<Category>());
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(EticaretDbContext).Assembly);
+
 
         // Seed: Örnek test verilerinin eklenmesi
         //modelBuilder.Entity<Category>().HasData(new Category() { Id = 1, Name = "Elektronik"});

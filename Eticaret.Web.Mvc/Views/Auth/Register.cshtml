@@ -1,1 +1,37 @@
-﻿<h1>Kaydol</h1>
+﻿@model RegisterViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-4 offset-4">
+            <h1>Kaydol</h1>
+
+            <span class="text-danger" asp-validation-summary="All"></span>
+
+            <form asp-action="Register" method="post">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Eposta</label>
+                    <input class="form-control" asp-for="EmailAddress">
+                    <span class="text-danger" asp-validation-for="EmailAddress"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Şifre</label>
+                    <input class="form-control" asp-for="Password">
+                    <span class="text-danger" asp-validation-for="Password"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Şifre Tekrarı</label>
+                    <input class="form-control" asp-for="Password2">
+                    <span class="text-danger" asp-validation-for="Password2"></span>
+                </div>
+
+                <input type="submit" value="Kaydol" class="btn btn-primary" />
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

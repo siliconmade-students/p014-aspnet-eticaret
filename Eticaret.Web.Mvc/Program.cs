@@ -1,4 +1,7 @@
-using Eticaret.Web.Mvc.Data;
+using Eticaret.Business.Services;
+using Eticaret.Data;
+using Eticaret.SharedLibrary.Email;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +15,18 @@ builder.Services.AddDbContext<EticaretDbContext>(o =>
     o.UseSqlServer(connectionString);
 });
 
+builder.Services
+    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(o =>
+    {
+        o.Cookie.Name = "Siliconmade.Cookie";
+        o.LoginPath = "/Auth/Login";
+        o.AccessDeniedPath = "/Auth/AccessDenied";
+    });
+
+builder.Services.AddSingleton<EmailService>();
+builder.Services.AddTransient<UserService>();
+builder.Services.AddTransient<ProductService>();
 
 var app = builder.Build();
 
@@ -42,6 +57,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Eticaret.Data;
+using Eticaret.Data.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Eticaret.Web.Mvc.Data;
-using Eticaret.Web.Mvc.Data.Entity;
 
 namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class BrandsController : Controller
     {
@@ -23,9 +20,9 @@ namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
         // GET: Admin/Brands
         public async Task<IActionResult> Index()
         {
-              return _context.Brands != null ? 
-                          View(await _context.Brands.ToListAsync()) :
-                          Problem("Entity set 'EticaretDbContext.Brands'  is null.");
+            return _context.Brands != null ?
+                        View(await _context.Brands.ToListAsync()) :
+                        Problem("Entity set 'EticaretDbContext.Brands'  is null.");
         }
 
         // GET: Admin/Brands/Details/5
@@ -151,14 +148,14 @@ namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
             {
                 _context.Brands.Remove(brand);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool BrandExists(int id)
         {
-          return (_context.Brands?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Brands?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

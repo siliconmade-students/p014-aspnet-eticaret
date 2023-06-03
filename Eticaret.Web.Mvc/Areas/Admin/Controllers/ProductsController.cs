@@ -1,10 +1,12 @@
-﻿using Eticaret.Web.Mvc.Data;
-using Eticaret.Web.Mvc.Data.Entity;
+﻿using Eticaret.Data;
+using Eticaret.Data.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class ProductsController : Controller
     {

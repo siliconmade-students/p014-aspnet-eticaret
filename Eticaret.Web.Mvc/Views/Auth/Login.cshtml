@@ -4,15 +4,20 @@
     <div class="row">
         <div class="col-4 offset-4">
             <h1>Giriş Yap</h1>
-            <form asp-action="Login" method="post">
+
+            <span class="text-danger" asp-validation-summary="All"></span>
+
+            <form asp-action="Login" asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]" method="post">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
                     <input class="form-control" asp-for="EmailAddress">
+                    <span class="text-danger" asp-validation-for="EmailAddress"></span>
                 </div>
 
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
                     <input class="form-control" asp-for="Password">
+                    <span class="text-danger" asp-validation-for="Password"></span>
                 </div>
 
                 <input type="submit" value="Giriş Yap" class="btn btn-primary" />
@@ -20,3 +25,7 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

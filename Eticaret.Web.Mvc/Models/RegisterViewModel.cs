@@ -2,7 +2,7 @@
 
 namespace Eticaret.Web.Mvc.Models
 {
-    public class LoginViewModel
+    public class RegisterViewModel
     {
         [Required]
         [DataType(DataType.EmailAddress)]
@@ -12,6 +12,12 @@ namespace Eticaret.Web.Mvc.Models
         [DataType(DataType.Password)]
         public string? Password { get; set; }
 
-        public bool RememberMe { get; set; }
+        [Required]
+        [Compare("Password")]
+        [DataType(DataType.Password)]
+        public string? Password2 { get; set; }
+
+        public string? Name { get; set; }
+        public string? Surname { get; set; }
     }
 }

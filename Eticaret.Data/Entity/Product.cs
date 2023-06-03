@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace Eticaret.Web.Mvc.Data.Entity;
+namespace Eticaret.Data.Entity;
 
 public class Product
 {

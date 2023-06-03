@@ -1,4 +1,4 @@
-﻿using Eticaret.Web.Mvc.Data.Entity;
+﻿using Eticaret.Data.Entity;
 
 namespace Eticaret.Web.Mvc.Models
 {

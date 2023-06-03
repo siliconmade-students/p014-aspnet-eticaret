@@ -1,7 +1,7 @@
-﻿using Eticaret.Web.Mvc.Data.Entity;
+﻿using Eticaret.Data.Entity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Eticaret.Web.Mvc.Data
+namespace Eticaret.Data
 {
     public class DbSeeder
     {
@@ -29,8 +29,21 @@ namespace Eticaret.Web.Mvc.Data
                     Id = 1,
                     Username = "admin",
                     Password = "123",
-                    Email = "admin@eticaret.dev",
-                    IsActive = true
+                    EmailAddress = "admin@eticaret.dev",
+                    IsActive = true,
+                    Name = "Admin",
+                    Surname = "Admin",
+                    Roles = "Admin"
+                },
+                new() {
+                    Id = 2,
+                    Username = "customer",
+                    Password = "123",
+                    EmailAddress = "customer@eticaret.dev",
+                    IsActive = true,
+                    Name = "Customer",
+                    Surname = "Customer",
+                    Roles = "Customer"
                 }
             });
 

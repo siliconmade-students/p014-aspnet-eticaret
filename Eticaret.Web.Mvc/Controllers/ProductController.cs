@@ -1,15 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Eticaret.Business.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Eticaret.Web.Mvc.Controllers
 {
     public class ProductController : Controller
     {
-        public IActionResult Index()
-        {
-            //var allProducts = FakeDatabase.AllProducts;
+        private readonly ProductService _productService;
 
-            //return View(allProducts);
-            return View();
+        public ProductController(ProductService productService)
+        {
+            _productService = productService;
+        }
+
+        public IActionResult Index(int categoryId)
+        {
+            var products = _productService.GetProductsByCategoryId(categoryId);
+
+            return View(products);
         }
 
         // /product/detail/5
