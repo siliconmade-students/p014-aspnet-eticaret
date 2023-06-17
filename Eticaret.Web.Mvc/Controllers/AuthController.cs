@@ -9,9 +9,9 @@ namespace Eticaret.Web.Mvc.Controllers
 {
     public class AuthController : Controller
     {
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
-        public AuthController(UserService userService)
+        public AuthController(IUserService userService)
         {
             _userService = userService;
         }
@@ -124,7 +124,7 @@ namespace Eticaret.Web.Mvc.Controllers
             var userDb = _userService.GetUserByEmail(emailAddress);
             if (userDb != null)
             {
-                _userService.ActivateUser(userDb);
+                _userService.ActivateUser(userDb.Id);
 
                 return RedirectToAction("ActivationSuccess");
             }

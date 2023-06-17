@@ -1,13 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Eticaret.SharedLibrary.Entity;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Eticaret.Data.Entity;
 
-public class Product
+public class Product : BaseAuditEntity
 {
-    public int Id { get; set; }
-
     [Required(ErrorMessage = "{0} alanı gerekli")]
     [Display(Name = "Ürün Adı", Prompt = "Ürün adı giriniz")]
     [Unicode, MaxLength(200, ErrorMessage = "{0} alanına en fazla 200 karakter girebilirsiniz")]
@@ -21,21 +19,23 @@ public class Product
     [Display(Name = "Fiyat", Prompt = "Ürün fiyatını giriniz")]
     //[Range(1, 1000, ErrorMessage = "Fiyat bilgisi 1-1000 arası olmalıdır")]
     [Precision(12, 3)]
-    //[Column("ProductPrice", TypeName = "decimal(12, 3)")]
     public decimal Price { get; set; }
 
+    [Display(Name = "Stok Adedi", Prompt = "Stok adedi giriniz")]
     public int? StockAmount { get; set; }
 
-    [Required(ErrorMessage = "{0} alanı gerekli")]
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
-
     public bool IsActive { get; set; }
-    public int? CategoryId { get; set; }
-    public int? BrandId { get; set; }
 
+    [Display(Name = "Kategori")]
+    public int? CategoryId { get; set; }
+
+    [Display(Name = "Marka")]
+    public int? BrandId { get; set; }
 
     // Navigation Properties
     //[ForeignKey("CategoryId")]
     public Category? Category { get; set; }
+
     public Brand? Brand { get; set; }
+    public List<ProductImage> ProductImages { get; set; }
 }

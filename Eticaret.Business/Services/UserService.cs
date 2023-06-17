@@ -1,30 +1,47 @@
-﻿using Eticaret.Data;
+﻿using AutoMapper;
+using Eticaret.Business.Dtos;
+using Eticaret.Data;
 using Eticaret.Data.Entity;
-using Eticaret.SharedLibrary.Email;
+using Eticaret.SharedLibrary.Email.Interfaces;
 
 namespace Eticaret.Business.Services
 {
-    public class UserService
+    public interface IUserService
+    {
+        UserDto? GetUserByLogin(string email, string password);
+        UserDto? GetUserByEmail(string email);
+        int CreateUserAndGetId(string email, string password);
+        bool ActivateUser(int userId);
+        void SendActivationEmail(int userId, string email);
+    }
+
+    public class UserService : IUserService
     {
         private readonly EticaretDbContext _context;
-        private readonly EmailService _emailService;
+        private readonly IEmailService _emailService;
+        private readonly IMapper _mapper;
 
-        public UserService(EticaretDbContext context, EmailService emailService)
+        public UserService(EticaretDbContext context, IEmailService emailService, IMapper mapper)
         {
             _context = context;
             _emailService = emailService;
+            _mapper = mapper;
         }
 
-        public User? GetUserByLogin(string email, string password)
+        public UserDto? GetUserByLogin(string email, string password)
         {
-            return _context.Users.FirstOrDefault(e =>
+            var user = _context.Users.FirstOrDefault(e =>
                 e.EmailAddress == email &&
                 e.Password == password);
+
+            return _mapper.Map<UserDto>(user);
         }
 
-        public User? GetUserByEmail(string email)
+        public UserDto? GetUserByEmail(string email)
         {
-            return _context.Users.FirstOrDefault(e => e.EmailAddress == email);
+            var user = _context.Users.FirstOrDefault(e => e.EmailAddress == email);
+
+            return _mapper.Map<UserDto>(user);
         }
 
         public int CreateUserAndGetId(string email, string password)
@@ -42,10 +59,15 @@ namespace Eticaret.Business.Services
             return newUser.Id;
         }
 
-        public bool ActivateUser(User user)
+        public bool ActivateUser(int userId)
         {
-            user.ActivationCode = null;
-            user.IsActive = true;
+            var user = _context.Users.Find(userId);
+            if (user != null)
+            {
+                user.ActivationCode = null;
+                user.IsActive = true;
+            }
+
             return _context.SaveChanges() > 0;
         }
 

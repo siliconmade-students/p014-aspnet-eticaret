@@ -1,9 +1,10 @@
 ﻿using System.Net;
 using System.Net.Mail;
+using Eticaret.SharedLibrary.Email.Interfaces;
 
 namespace Eticaret.SharedLibrary.Email
 {
-    public class EmailService
+    public class MailTrapEmailService : IEmailService
     {
         public void Send(string toMail, string subject, string body)
         {

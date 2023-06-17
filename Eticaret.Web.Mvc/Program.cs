@@ -1,19 +1,12 @@
-using Eticaret.Business.Services;
-using Eticaret.Data;
-using Eticaret.SharedLibrary.Email;
+using Eticaret.Business;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<EticaretDbContext>(o =>
-{
-    // appSettings.json içerisindeki Default baðlantý metnini almayý saðlar.
-    string connectionString = builder.Configuration.GetConnectionString("Default");
-    o.UseSqlServer(connectionString);
-});
+
+builder.Services.AddBusinessServices(builder.Configuration);
 
 builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -24,10 +17,6 @@ builder.Services
         o.AccessDeniedPath = "/Auth/AccessDenied";
     });
 
-builder.Services.AddSingleton<EmailService>();
-builder.Services.AddTransient<UserService>();
-builder.Services.AddTransient<ProductService>();
-
 var app = builder.Build();
 
 // Code First (1. Ensure, 2.Migration)
@@ -36,17 +25,7 @@ if (app.Environment.IsDevelopment())
 {
     using (var scope = app.Services.CreateScope())
     {
-        // Veritabaný servisine eriþim saðlar.
-        var context = scope.ServiceProvider.GetRequiredService<EticaretDbContext>();
-
-        // Veritabanýný sil
-        //context.Database.EnsureDeleted();
-
-        // Veritabanýný oluþturur
-        context.Database.EnsureCreated();
-
-        // Migrationlarý çalýþtýr
-        //context.Database.Migrate();
+        ServiceExtensions.SeedData(scope.ServiceProvider);
     }
 }
 

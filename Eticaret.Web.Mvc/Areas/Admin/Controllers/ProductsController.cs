@@ -2,6 +2,7 @@
 using Eticaret.Data.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
@@ -86,8 +87,20 @@ namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
         }
 
         // GET: Admin/Products/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.Categories = await _context.Categories.Select(e => new SelectListItem
+            {
+                Text = e.Name,
+                Value = e.Id.ToString()
+            }).ToListAsync();
+
+            ViewBag.Brands = await _context.Brands.Select(e => new SelectListItem
+            {
+                Text = e.Name,
+                Value = e.Id.ToString()
+            }).ToListAsync();
+
             return View();
         }
 
@@ -120,6 +133,20 @@ namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.Categories = await _context.Categories.Select(e => new SelectListItem
+            {
+                Text = e.Name,
+                Value = e.Id.ToString()
+            }).ToListAsync();
+
+            ViewBag.Brands = await _context.Brands.Select(e => new SelectListItem
+            {
+                Text = e.Name,
+                Value = e.Id.ToString()
+            }).ToListAsync();
+
+
             return View(product);
         }
 
