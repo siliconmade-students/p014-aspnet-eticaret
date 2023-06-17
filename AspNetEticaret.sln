@@ -14,12 +14,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eticaret.Data", "Eticaret.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eticaret.Business", "Eticaret.Business\Eticaret.Business.csproj", "{9117E615-D2DD-4E12-9B98-C8AD1567CE18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eticaret.SharedLibrary", "Eticaret.SharedLibrary\Eticaret.SharedLibrary.csproj", "{1D619CE3-8441-43A8-8283-3475DCE4E90E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eticaret.SharedLibrary", "Eticaret.SharedLibrary\Eticaret.SharedLibrary.csproj", "{1D619CE3-8441-43A8-8283-3475DCE4E90E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{EA34B0CE-89A1-403D-97DB-942AE0E34FC0}"
 	ProjectSection(SolutionItems) = preProject
 		Docs\Katmanlı Mimarı.drawio = Docs\Katmanlı Mimarı.drawio
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eticaret.Web.Api", "Eticaret.Web.Api\Eticaret.Web.Api.csproj", "{F2407021-1479-4BBD-8374-1A2034A174B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{1D619CE3-8441-43A8-8283-3475DCE4E90E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D619CE3-8441-43A8-8283-3475DCE4E90E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D619CE3-8441-43A8-8283-3475DCE4E90E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2407021-1479-4BBD-8374-1A2034A174B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2407021-1479-4BBD-8374-1A2034A174B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2407021-1479-4BBD-8374-1A2034A174B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2407021-1479-4BBD-8374-1A2034A174B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
