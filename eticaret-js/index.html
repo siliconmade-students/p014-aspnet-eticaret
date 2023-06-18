@@ -23,7 +23,15 @@
 
 		<script>
 			window.onload = function () {
-				fetch('https://localhost:7171/api/Products')
+
+				let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiQWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJBZG1pbiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL3N1cm5hbWUiOiJBZG1pbiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImFkbWluQGV0aWNhcmV0LmRldiIsImV4cCI6MTY4NzA4NTU5NywiaXNzIjoiU2lsaWNvbm1hZGUiLCJhdWQiOiJKc01vYmlsZUNsaWVudHMifQ.rSwzyjjdzUn2phzVLMg1YgqnfbD0LeYZnE0bCiK5M6w';
+
+				fetch('https://localhost:7171/api/Products', {
+					method: 'GET',
+					headers: {
+						'Authorization': 'Bearer ' + token
+					},
+				})
 					.then((response) => response.json())
 					.then((products) => {
 						let productsDiv = document.getElementById('products');
