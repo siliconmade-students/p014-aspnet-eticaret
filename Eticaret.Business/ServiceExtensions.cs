@@ -40,6 +40,7 @@ namespace Eticaret.Business
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<ICategoryService, CategoryService>();
 
             return services;
         }

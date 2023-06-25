@@ -1,10 +1,10 @@
-﻿@model CatalogViewModel
+﻿@model List<ProductDto>
 
 <div class="container mt-5">
-    <h1>@Model.Category.Name</h1>
+    <h1>Aranan Ürünler</h1>
 
     <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-        @foreach (ProductDto item in Model.Products)
+        @foreach (var item in Model)
         {
             <div class="col mb-5">
                 <partial name="_ProductItem" model="@item">

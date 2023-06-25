@@ -1,3 +1,17 @@
-﻿<div class="container">
-<h1>Ürün detayı</h1>
+﻿@model ProductDto
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            @foreach(var img in Model.ImagePaths)
+            {
+                <img src="/uploads/@img" style="height:200px">
+            }
+        </div>
+        <div class="col-md-9">
+            <h1>@Model.ProductName</h1>
+
+            <p>Fiyatı: @Model.Price TL</p>
+        </div>
+    </div>
 </div>

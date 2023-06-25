@@ -246,8 +246,9 @@ sup {
 
 a {
   color: var(--bs-link-color);
-  text-decoration: underline;
+  text-decoration: none;
 }
+
 a:hover {
   color: var(--bs-link-hover-color);
 }
@@ -10823,4 +10824,10 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
+}
+
+
+.product-item h5 a {
+    color: #000 !important;
+    font-weight: bold;
 }

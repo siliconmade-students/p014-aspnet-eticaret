@@ -1,4 +1,5 @@
-﻿using Eticaret.Web.Mvc.Models;
+﻿using Eticaret.Business.Services;
+using Eticaret.Web.Mvc.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,17 +8,21 @@ namespace Eticaret.Web.Mvc.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IProductService _productService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IProductService productService)
         {
             _logger = logger;
+            _productService = productService;
         }
 
         public IActionResult Index()
         {
-            //var allProducts = FakeDatabase.AllProducts;
+            //throw new Exception("Ozel Hata");
 
-            //return View(allProducts);
+            ViewBag.PopularProducts = _productService.GetPopularProducts();
+            ViewBag.LastProducts = _productService.GetLastProducts();
+
             return View();
         }
 
@@ -30,6 +35,15 @@ namespace Eticaret.Web.Mvc.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpGet("/Error/{statusCode}")]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult StatusCodeError(int statusCode)
+        {
+            ViewBag.StatusCode = statusCode;
+
+            return View();
         }
     }
 }

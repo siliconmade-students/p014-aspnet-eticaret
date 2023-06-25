@@ -14,7 +14,7 @@
     <link href="/css/styles.css" rel="stylesheet" />
 </head>
 <body>
-    <partial name="_Navbar" />
+    @await Component.InvokeAsync("Navbar")
 
     @RenderBody()
 

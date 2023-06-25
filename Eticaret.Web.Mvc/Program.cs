@@ -1,10 +1,17 @@
 using Eticaret.Business;
+using Eticaret.SharedLibrary.Email;
+using Eticaret.Web.Mvc.Filters;
+using Eticaret.Web.Mvc.Middlewares;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    // Bir filtrenin tüm isteklerde çalýþmasý için Global Filter olarak tanýmlanabilir.
+    options.Filters.Add<ExecutionTimeFilter>(int.MinValue);
+});
 
 builder.Services.AddBusinessServices(builder.Configuration);
 
@@ -16,6 +23,8 @@ builder.Services
         o.LoginPath = "/Auth/Login";
         o.AccessDeniedPath = "/Auth/AccessDenied";
     });
+
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Email:MailTrap"));
 
 var app = builder.Build();
 
@@ -33,9 +42,49 @@ if (app.Environment.IsDevelopment())
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
+
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+else
+{
+    // Varsyýlan geliþtirme ortamýnda DeveloperExceptionPage aktif olarak çalýþýr.
+    //app.UseDeveloperExceptionPage();
+}
+
+#region Exception Handler/Middleware Örneði
+
+//var logger = app.Services.GetRequiredService<ILogger<Program>>();
+//app.ConfigureExceptionHandler(logger);
+
+app.UseGlobalExceptionMiddleware();
+
+app.UseStatusCodePagesWithReExecute("/Error/{0}");
+
+#endregion
+
+#region Middleware Örneði
+//app.Use(async (context, next) =>
+//{
+//    var logDirectory = Directory.GetCurrentDirectory() + "\\Logs";
+
+//    if (!Directory.Exists(logDirectory)) Directory.CreateDirectory(logDirectory);
+
+//    using var sw = File.AppendText(Path.Combine(logDirectory, "Logs.txt"));
+//    var ip = context.Connection.RemoteIpAddress;
+//    sw.WriteLine(ip + ";" + DateTime.Now);
+
+//    await next.Invoke();
+//});
+
+//app.Run(async context =>
+//{
+//    await context.Response.WriteAsync("Hello from 2nd delegate.");
+//});
+
+//app.UseMiddleware<IpLoggingMiddleware>();
+//app.UseIPLogging();
+#endregion
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

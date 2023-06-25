@@ -12,10 +12,67 @@ namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
     public class ProductsController : Controller
     {
         private readonly EticaretDbContext _context;
+        private readonly IWebHostEnvironment _env;
 
-        public ProductsController(EticaretDbContext context)
+        public ProductsController(EticaretDbContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
+        }
+
+        public async Task<IActionResult> ProductImages(int productId)
+        {
+            var productImages = await _context.ProductImages
+                .Include(m => m.Product)
+                .Where(m => m.ProductId == productId)
+                .ToListAsync();
+
+            return View(productImages);
+        }
+        public async Task<IActionResult> SaveProductImage(IFormFile productImage, int productId)
+        {
+            var msg = "";
+            if (productImage.Length > 5 * 1024 * 1024) // byte olduğu için MB için iki kez çarptık.
+            {
+                msg += "<p>Lütfen 5MB dan küçük boyutta bir resim yükleyiniz.";
+            }
+
+            var fileName = productImage.FileName; // turıouroıtu.jpg
+            var fileExtension = Path.GetExtension(fileName);
+            if (fileExtension != ".jpg" && fileExtension != ".gif" && productImage.ContentType != "image/jpeg")
+                msg += "<p>Dosya türü JPG veya GIF olmalıdır.</p>";
+
+            if (string.IsNullOrEmpty(msg))
+            {
+                var uploadPath = Path.Combine(_env.WebRootPath, "uploads"); // wwwroot/uploads
+                if (!Directory.Exists(uploadPath)) Directory.CreateDirectory(uploadPath);
+
+                // HH: saat, mm: Dakika, ss: Saniye, fff: Milisaniye
+                var randomFileName = "ProductImage_" + productId + "_" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                //randomFileName = Guid.NewGuid().ToString("N"); // N: Tireler olmadan, D: Tireler ile
+
+                var uploadFilePath = Path.Combine(uploadPath, randomFileName + fileExtension); // wwwroot/uploads/ProductImage_1_202306251251134.jpg
+
+                // Dosya yükleme
+                using var stream = new FileStream(uploadFilePath, FileMode.Create);
+                await productImage.CopyToAsync(stream);
+                stream.Close();
+
+                _context.ProductImages.Add(new ProductImage
+                {
+                    ProductId = productId,
+                    ImagePath = randomFileName + fileExtension
+                });
+                await _context.SaveChangesAsync();
+
+                TempData["MessageSuccess"] = "Dosya yüklendi.";
+            }
+            else
+            {
+                TempData["MessageError"] = msg;
+            }
+
+            return RedirectToAction("ProductImages", new { productId });
         }
 
         // GET: Admin/Products

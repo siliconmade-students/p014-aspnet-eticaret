@@ -5,7 +5,7 @@ namespace Eticaret.Business.Dtos
     public class ProductDto
     {
         // API Response içerisinde gizlemeyi sağlar
-        [JsonIgnore]
+        //[JsonIgnore]
         public int Id { get; set; }
 
         public string ProductName { get; set; }

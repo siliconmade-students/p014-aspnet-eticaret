@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ProductImage>
+
+@{
+    ViewData["Title"] = "Product Images";
+    var productId = Context.Request.Query["productId"];
+}
+
+<h1>Product Images</h1>
+<a asp-action="Index" class="btn btn-sm btn-primary">Geri Dön</a>
+
+<div class="row">
+    <div class="col-md-4">
+        <h4>Yeni Resim Ekle</h4>
+        <form asp-action="SaveProductImage" asp-route-productId="@productId" enctype="multipart/form-data">
+            <span class="text-danger">@Html.Raw(TempData["MessageError"])</span>
+            <span class="text-success">@TempData["MessageSuccess"]</span>
+            <input type="file" class="form-control" name="productImage" />
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+        </form>
+    </div>
+    <div class="col-md-8">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Resim</th>
+                    <th>Ürün Adı</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <img src="/uploads/@item.ImagePath" height="150">
+                        </td>
+                        <td>@item.Product.Title</td>
+                        <td>
+                            <a asp-action="ProductImageDelete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    
+</div>

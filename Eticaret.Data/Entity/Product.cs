@@ -31,6 +31,7 @@ public class Product : BaseAuditEntity
 
     [Display(Name = "Marka")]
     public int? BrandId { get; set; }
+    public int ViewCount { get; set; }
 
     // Navigation Properties
     //[ForeignKey("CategoryId")]

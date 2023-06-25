@@ -1,20 +1,27 @@
-﻿using Eticaret.Business.Services;
+﻿using Eticaret.Business.Dtos;
+using Eticaret.Business.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Eticaret.Web.Mvc.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly ProductService _productService;
+        private readonly IProductService _productService;
 
-        public ProductController(ProductService productService)
+        public ProductController(IProductService productService)
         {
             _productService = productService;
         }
 
-        public IActionResult Index(int categoryId)
+        //[SampleActionFilter]
+        //[ExecutionTimeFilter]
+        public IActionResult Search(int? categoryId, string? query)
         {
-            var products = _productService.GetProductsByCategoryId(categoryId);
+            var products = _productService.GetProductsBySearch(new SearchDto
+            {
+                CategoryId = categoryId,
+                Query = query
+            });
 
             return View(products);
         }
@@ -22,7 +29,10 @@ namespace Eticaret.Web.Mvc.Controllers
         // /product/detail/5
         public IActionResult Detail(int id)
         {
-            return View();
+            var product = _productService.GetById(id);
+            if (product == null) return NotFound();
+
+            return View(product);
         }
     }
 }

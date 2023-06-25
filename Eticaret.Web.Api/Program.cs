@@ -24,19 +24,12 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        if (builder.Environment.IsDevelopment())
-        {
-            policy
-                .WithOrigins("http://localhost:5500", "http://127.0.0.1:5500")
-                //.AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .SetIsOriginAllowedToAllowWildcardSubdomains();
-        }
-        else
-        {
-            policy.WithOrigins("http://vuejsapp.com");
-        }
+        policy
+            .WithOrigins(builder.Configuration["App:CorsClients"].Trim().Split(','))
+            //.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .SetIsOriginAllowedToAllowWildcardSubdomains();
     });
 });
 

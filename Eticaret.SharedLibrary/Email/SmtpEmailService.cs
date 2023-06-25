@@ -1,23 +1,30 @@
-﻿using System.Net;
+﻿using Eticaret.SharedLibrary.Email.Interfaces;
+using Microsoft.Extensions.Options;
+using System.Net;
 using System.Net.Mail;
-using Eticaret.SharedLibrary.Email.Interfaces;
 
 namespace Eticaret.SharedLibrary.Email
 {
-
     public class SmtpEmailService : IEmailService
     {
+        private readonly EmailSettings _emailSettings;
+
+        public SmtpEmailService(IOptions<EmailSettings> emailSettings)
+        {
+            _emailSettings = emailSettings.Value;
+        }
+
         public void Send(string toMail, string subject, string body)
         {
-            var client = new SmtpClient("smtp.siliconmadeacademy.com", 587)
+            var client = new SmtpClient(_emailSettings.Host, _emailSettings.Port)
             {
-                Credentials = new NetworkCredential("siliconmade", "123"),
+                Credentials = new NetworkCredential(_emailSettings.Username, _emailSettings.Password),
                 EnableSsl = true
             };
 
             var mail = new MailMessage()
             {
-                From = new MailAddress("info@siliconmadeacademy.com", "Siliconmade Academy"),
+                From = new MailAddress(_emailSettings.FromMail, _emailSettings.FromName),
                 Subject = subject,
                 Body = body,
                 IsBodyHtml = true

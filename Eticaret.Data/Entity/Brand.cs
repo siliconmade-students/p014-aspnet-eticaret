@@ -11,5 +11,6 @@ public class Brand : BaseEntity
     public string Name { get; set; } = string.Empty;
 
     // Navigation Properties
-    public ICollection<Product> Products { get; set; }
+    //[ValidateNever]
+    public ICollection<Product>? Products { get; set; }
 }
