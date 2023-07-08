@@ -3,6 +3,7 @@ using Eticaret.Data.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
 namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
@@ -13,11 +14,13 @@ namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
     {
         private readonly EticaretDbContext _context;
         private readonly IWebHostEnvironment _env;
+        private readonly IConfiguration _confuguration;
 
-        public ProductsController(EticaretDbContext context, IWebHostEnvironment env)
+        public ProductsController(EticaretDbContext context, IWebHostEnvironment env, IConfiguration confuguration)
         {
             _context = context;
             _env = env;
+            _confuguration = confuguration;
         }
 
         public async Task<IActionResult> ProductImages(int productId)
@@ -29,9 +32,29 @@ namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
 
             return View(productImages);
         }
+
+        public async Task<IActionResult> ProductImageDelete(int id, int productId)
+        {
+            var productImage = await _context.ProductImages.FirstOrDefaultAsync(m => m.Id == id);
+            if (productImage != null)
+            {
+                _context.ProductImages.Remove(productImage);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("ProductImages", new { productId });
+        }
+
         public async Task<IActionResult> SaveProductImage(IFormFile productImage, int productId)
         {
+            if (productImage == null)
+            {
+                TempData["MessageError"] = "<p>Lütfen bir dosya seçiniz.";
+                return RedirectToAction("ProductImages", new { productId });
+            }
+
             var msg = "";
+
             if (productImage.Length > 5 * 1024 * 1024) // byte olduğu için MB için iki kez çarptık.
             {
                 msg += "<p>Lütfen 5MB dan küçük boyutta bir resim yükleyiniz.";
@@ -44,7 +67,7 @@ namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
 
             if (string.IsNullOrEmpty(msg))
             {
-                var uploadPath = Path.Combine(_env.WebRootPath, "uploads"); // wwwroot/uploads
+                var uploadPath = _env.WebRootPath + _confuguration["App:UploadPath"]; // wwwroot/uploads
                 if (!Directory.Exists(uploadPath)) Directory.CreateDirectory(uploadPath);
 
                 // HH: saat, mm: Dakika, ss: Saniye, fff: Milisaniye
@@ -58,6 +81,7 @@ namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
                 await productImage.CopyToAsync(stream);
                 stream.Close();
 
+                // Veritabanına kaydet
                 _context.ProductImages.Add(new ProductImage
                 {
                     ProductId = productId,

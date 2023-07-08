@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<ProductImage>
-
+@inject IConfiguration configuration
 @{
     ViewData["Title"] = "Product Images";
     var productId = Context.Request.Query["productId"];
@@ -13,7 +13,7 @@
         <h4>Yeni Resim Ekle</h4>
         <form asp-action="SaveProductImage" asp-route-productId="@productId" enctype="multipart/form-data">
             <span class="text-danger">@Html.Raw(TempData["MessageError"])</span>
-            <span class="text-success">@TempData["MessageSuccess"]</span>
+            <span class="text-success">@Html.Raw(TempData["MessageSuccess"])</span>
             <input type="file" class="form-control" name="productImage" />
             <button type="submit" class="btn btn-primary">Kaydet</button>
         </form>
@@ -32,11 +32,11 @@
                 {
                     <tr>
                         <td>
-                            <img src="/uploads/@item.ImagePath" height="150">
+                            <img src="@configuration["App:UploadPath"]/@item.ImagePath" height="150">
                         </td>
                         <td>@item.Product.Title</td>
                         <td>
-                            <a asp-action="ProductImageDelete" asp-route-id="@item.Id">Delete</a>
+                            <a asp-action="ProductImageDelete" asp-route-id="@item.Id" asp-route-productId="@item.ProductId" onclick="return confirm('Emin misiniz?')">Delete</a>
                         </td>
                     </tr>
                 }
