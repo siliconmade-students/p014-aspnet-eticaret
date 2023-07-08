@@ -15,6 +15,11 @@ builder.Services.AddControllersWithViews(options =>
 
 builder.Services.AddBusinessServices(builder.Configuration);
 
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = "EticaretSession";
+});
+
 builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(o =>
@@ -41,7 +46,8 @@ if (app.Environment.IsDevelopment())
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    //app.UseExceptionHandler("/Home/Error");
+    app.UseGlobalExceptionMiddleware();
 
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
@@ -57,7 +63,7 @@ else
 //var logger = app.Services.GetRequiredService<ILogger<Program>>();
 //app.ConfigureExceptionHandler(logger);
 
-app.UseGlobalExceptionMiddleware();
+//app.UseGlobalExceptionMiddleware();
 
 app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
@@ -88,6 +94,8 @@ app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseSession();
 
 app.UseRouting();
 

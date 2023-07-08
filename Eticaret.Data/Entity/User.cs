@@ -1,11 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Eticaret.SharedLibrary.Entity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Eticaret.Data.Entity;
 
-public class User
+public class User : BaseEntity
 {
-    public int Id { get; set; }
-
     [MaxLength(50)]
     public string? Username { get; set; }
 
