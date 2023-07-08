@@ -13,6 +13,17 @@ namespace Eticaret.Web.Mvc.Controllers
             _productService = productService;
         }
 
+        public IActionResult Index(bool? isPopular, bool? isNewArrival)
+        {
+            var products = _productService.GetProductsBySearch(new SearchDto
+            {
+                IsPopular = isPopular,
+                IsNewArrival = isNewArrival
+            });
+
+            return View(products);
+        }
+
         //[SampleActionFilter]
         //[ExecutionTimeFilter]
         public IActionResult Search(int? categoryId, string? query)

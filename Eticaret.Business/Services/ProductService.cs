@@ -114,6 +114,14 @@ namespace Eticaret.Business.Services
             if (!string.IsNullOrEmpty(searchDto.Query))
                 productsQuery = productsQuery.Where(e => e.Title.Contains(searchDto.Query));
 
+            if (searchDto.IsPopular == true)
+            {
+                productsQuery = productsQuery.OrderByDescending(e => e.ViewCount);
+            }
+            else if (searchDto.IsNewArrival == true)
+            {
+                productsQuery = productsQuery.OrderByDescending(e => e.CreatedAt);
+            }
 
 
             return productsQuery
