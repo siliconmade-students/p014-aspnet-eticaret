@@ -12,6 +12,7 @@ namespace Eticaret.Business
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<Product, ProductDto>().ReverseMap();
             CreateMap<Category, CategoryDto>().ReverseMap();
+            CreateMap<UserAddress, UserAddressDto>().ReverseMap();
         }
     }
 }

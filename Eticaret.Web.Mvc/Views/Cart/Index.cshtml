@@ -16,7 +16,7 @@
                     <th scope="col">Ürün</th>
                     <th scope="col">Adet</th>
                     <th scope="col">Fiyat</th>
-                    <th scope="col">Toplam Tutar</th>
+                    <th scope="col">Ara Toplam</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -54,5 +54,9 @@
                 </tr>
             </tbody>
         </table>
+        <div class="d-flex justify-content-between">
+            <a href="#" class="btn btn-info">Sepeti Boşalt</a>
+            <a asp-controller="Checkout" asp-action="Index" class="btn btn-success btn-lg">Ödeme Yap</a>
+        </div>
     }
 </div>

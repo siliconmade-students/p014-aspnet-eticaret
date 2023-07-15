@@ -1,0 +1,67 @@
+﻿@model CheckoutModel
+
+<div class="container">
+    <h1>Ödeme</h1>
+
+    <form asp-controller="Checkout" asp-action="Pay">
+        <div class="row">
+            <div class="col-md-9">
+                
+                <h2>Kredi Kartı</h2>
+                <label>Kredi Kartı Numarası</label>
+                <input type="text" asp-for="CreditCard.Number" class="form-control" />
+
+
+                <h2 class="mt-5">Teslimat Bilgileri</h2>
+                <select class="form-select" asp-items="Model.UserAddresses" asp-for="SelectedUserAddress">
+                    <option value="">Seçiniz</option>
+                </select>
+
+            </div>
+            <div class="col-md-3">
+                <text>Sepetinizde @Model.Cart.Count ürün bulunmaktadır.</text>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Ürün</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Cart)
+                        {
+                            <tr>
+                                <td>@item.ProductName x @item.Quantity</td>
+                            </tr>
+                        }
+                        <tr>
+                            <td>
+                                <b>Toplam Tutar</b><br />
+                                @{
+                                    var toplamTutar = Model.Cart.Sum(item => item.Quantity * item.Price);
+                                    var kdv = toplamTutar * 0.20m;
+                                }
+                                @toplamTutar.ToString("C2")
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Toplam KDV (%20)</b><br />
+                                @kdv.ToString("C2")
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Toplam KDV'li Tutar</b>
+                                @((toplamTutar + kdv).ToString("C2"))
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-success btn-lg">Öde</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

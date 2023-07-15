@@ -1,0 +1,53 @@
+﻿@model List<OrderProduct>
+@{
+    var order = Model[0].Order;
+}
+<div class="container">
+    <h1>Sipariş Detayı (@order.OrderNumber)</h1>
+    
+    <text>Siparişinizde toplam @Model.Count ürün bulunmaktadır.</text>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Ürün</th>
+                <th scope="col">Adet</th>
+                <th scope="col">Fiyat</th>
+                <th scope="col">Ara Toplam</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@item.Product.Id</th>
+                    <td>@item.Product.Title</td>
+                    <td>@item.Amount</td>
+                    <td>@item.Price.ToString("C2")</td>
+                    <td>@((item.Price * item.Amount).ToString("C2"))</td>
+                    <td>
+                        <a asp-controller="User" asp-action="ReturnProduct" asp-route-pid="@item.ProductId" class="btn btn-sm btn-danger btn-lg btn-block">İade Et</a>
+                    </td>
+                </tr>
+            }
+            <tr>
+                <th colspan="4" class="text-end">Toplam Tutar</th>
+                <td>
+                    @{
+                        var toplamTutar = Model.Sum(item => item.Amount * item.Price);
+                        var kdv = toplamTutar * 0.20m;
+                    }
+                    @toplamTutar.ToString("C2")
+                </td>
+            </tr>
+            <tr>
+                <th colspan="4" class="text-end">Toplam KDV (%20)</th>
+                <td>@kdv.ToString("C2")</td>
+            </tr>
+            <tr>
+                <th colspan="4" class="text-end">Toplam KDV'li Tutar</th>
+                <td>@((toplamTutar + kdv).ToString("C2"))</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

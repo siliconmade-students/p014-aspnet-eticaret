@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace Eticaret.Web.Mvc.Controllers
 {
-    public class CartController : Controller
+    public class CartController : BaseController
     {
         private readonly IProductService _productService;
 
@@ -19,21 +19,6 @@ namespace Eticaret.Web.Mvc.Controllers
             var cartSessionList = GetCartSessionList();
 
             return View(cartSessionList);
-        }
-
-        private List<CartSessionModel>? GetCartSessionList()
-        {
-            // Boş bir sepet listesi oluştur
-            var cartSessionList = new List<CartSessionModel>();
-
-            // Daha önce session da Cart isminde sepet bilgisi varsa listeyi bununla oluştur.
-            var cartSession = HttpContext.Session.GetString("Cart"); // string
-            if (cartSession != null)
-            {
-                cartSessionList = JsonSerializer.Deserialize<List<CartSessionModel>>(cartSession);
-            }
-
-            return cartSessionList;
         }
 
         public IActionResult AddToCart(int pid)

@@ -26,4 +26,11 @@ public class Order : BaseEntity
     [Required]
     [Precision(10, 2)]
     public decimal TotalPrice { get; set; }
+
+    [MaxLength(50)]
+    public string OrderStatus { get; set; } = string.Empty;
+
+    public DateTime CreatedAt { get; set; }
+
+    public List<OrderProduct> OrderProducts { get; set; }
 }
