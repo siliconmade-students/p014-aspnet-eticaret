@@ -1,5 +1,6 @@
 ﻿using Eticaret.Data.Entity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace Eticaret.Data;
 
@@ -54,5 +55,16 @@ public class EticaretDbContext : DbContext
         DbSeeder.SeedTestData(modelBuilder);
 
         base.OnModelCreating(modelBuilder);
+    }
+}
+
+public class EticaretDbContextFactory : IDesignTimeDbContextFactory<EticaretDbContext>
+{
+    public EticaretDbContext CreateDbContext(string[] args)
+    {
+        var optionsBuilder = new DbContextOptionsBuilder<EticaretDbContext>();
+        optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDb; Database=EticaretDb;");
+
+        return new EticaretDbContext(optionsBuilder.Options);
     }
 }
