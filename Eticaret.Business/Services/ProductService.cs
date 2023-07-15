@@ -32,6 +32,7 @@ namespace Eticaret.Business.Services
                 {
                     Id = e.Id,
                     ProductName = e.Title,
+                    Description = e.Description,
                     Price = e.Price,
                     ImagePaths = e.ProductImages.Select(e => e.ImagePath).ToList(),
                 })
@@ -47,6 +48,7 @@ namespace Eticaret.Business.Services
                 {
                     Id = e.Id,
                     ProductName = e.Title,
+                    Description = e.Description,
                     Price = e.Price,
                     ImagePaths = e.ProductImages.Select(e => e.ImagePath).ToList(),
                 })
@@ -64,6 +66,7 @@ namespace Eticaret.Business.Services
                 {
                     Id = e.Id,
                     ProductName = e.Title,
+                    Description = e.Description,
                     Price = e.Price,
                     ImagePaths = e.ProductImages.Select(e => e.ImagePath).ToList(),
                 })
@@ -80,6 +83,7 @@ namespace Eticaret.Business.Services
                 {
                     Id = e.Id,
                     ProductName = e.Title,
+                    Description = e.Description,
                     Price = e.Price,
                     ImagePaths = e.ProductImages.Select(e => e.ImagePath).ToList(),
                 })
@@ -96,6 +100,7 @@ namespace Eticaret.Business.Services
                 {
                     Id = e.Id,
                     ProductName = e.Title,
+                    Description = e.Description,
                     Price = e.Price,
                     ImagePaths = e.ProductImages.Select(e => e.ImagePath).ToList(),
                 })
@@ -123,12 +128,12 @@ namespace Eticaret.Business.Services
                 productsQuery = productsQuery.OrderByDescending(e => e.CreatedAt);
             }
 
-
             return productsQuery
                 .Select(e => new ProductDto
                 {
                     Id = e.Id,
                     ProductName = e.Title,
+                    Description = e.Description,
                     Price = e.Price,
                     ImagePaths = e.ProductImages.Select(e => e.ImagePath).ToList(),
                 })

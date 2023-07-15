@@ -5,13 +5,37 @@
         <div class="col-md-3">
             @foreach(var img in Model.ImagePaths)
             {
-                <img src="/uploads/@img" style="height:200px">
+                <img src="/uploads/@img" class="img-fluid">
             }
         </div>
         <div class="col-md-9">
             <h1>@Model.ProductName</h1>
 
             <p>Fiyatı: @Model.Price TL</p>
+
+            <a class="btn btn-outline-dark mt-auto" asp-controller="Cart" asp-action="AddToCart" asp-route-pid="@Model.Id">
+                Sepete Ekle
+            </a>
         </div>
     </div>
+
+    <nav class="mt-5">
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-detail" type="button" role="tab" aria-controls="nav-detail" aria-selected="true">Açıklama</button>
+            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-comments" type="button" role="tab" aria-controls="nav-comments" aria-selected="false">Yorumlar</button>
+            <button class="nav-link" id="nav-installment-tab" data-bs-toggle="tab" data-bs-target="#nav-installment" type="button" role="tab" aria-controls="nav-installment" aria-selected="false">Taksitler</button>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-detail" role="tabpanel" aria-labelledby="nav-detail-tab" tabindex="0">
+            @Model.Description
+        </div>
+        <div class="tab-pane fade" id="nav-comments" role="tabpanel" aria-labelledby="nav-comments-tab" tabindex="0">
+            Ürün yorumları
+        </div>
+        <div class="tab-pane fade" id="nav-installment" role="tabpanel" aria-labelledby="nav-installment-tab" tabindex="0">
+            Taksit tablosu
+        </div>
+    </div>
+
 </div>
