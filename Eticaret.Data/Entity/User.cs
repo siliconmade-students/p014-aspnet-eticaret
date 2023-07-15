@@ -9,8 +9,12 @@ public class User : BaseEntity
     public string? Username { get; set; }
 
     [Required]
-    [MaxLength(50)]
+    [MaxLength(100)]
     public string Password { get; set; }
+
+    [Required]
+    [MaxLength(100)]
+    public string Salt { get; set; }
 
     [Required]
     [MaxLength(150)]

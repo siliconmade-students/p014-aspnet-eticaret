@@ -10,9 +10,10 @@ namespace Eticaret.Business.Services
     {
         UserDto? GetUserByLogin(string email, string password);
         UserDto? GetUserByEmail(string email);
-        int CreateUserAndGetId(string email, string password);
+        int CreateUserAndGetId(string email, string hashedPassword, string salt);
         bool ActivateUser(int userId);
         void SendActivationEmail(int userId, string email);
+        List<UserAddressDto>? GetUserAddresses(int userId);
     }
 
     public class UserService : IUserService
@@ -44,12 +45,13 @@ namespace Eticaret.Business.Services
             return _mapper.Map<UserDto>(user);
         }
 
-        public int CreateUserAndGetId(string email, string password)
+        public int CreateUserAndGetId(string email, string hashedPassword, string salt)
         {
             var newUser = new User()
             {
                 EmailAddress = email,
-                Password = password,
+                Password = hashedPassword,
+                Salt = salt,
                 Roles = "Customer",
                 IsActive = false
             };
@@ -85,6 +87,13 @@ namespace Eticaret.Business.Services
                 <p>Aktivasyon için aşağıdaki bağlantıya tıklayınız.
                 <p><a href='{mailLink}'>Aktive Et</a>
             ");
+        }
+
+        public List<UserAddressDto>? GetUserAddresses(int userId)
+        {
+            var addresses = _context.UserAddresses.Where(e => e.UserId == userId).ToList();
+
+            return _mapper.Map<List<UserAddressDto>>(addresses);
         }
     }
 }

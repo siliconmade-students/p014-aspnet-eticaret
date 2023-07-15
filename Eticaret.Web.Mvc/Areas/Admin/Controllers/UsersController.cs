@@ -54,7 +54,7 @@ namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Username,Password,Email,ActivationCode,IsActive")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Username,Password,EmailAddress,ActivationCode,IsActive")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Username,Password,Email,ActivationCode,IsActive")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Username,Password,EmailAddress,ActivationCode,IsActive")] User user)
         {
             if (id != user.Id)
             {

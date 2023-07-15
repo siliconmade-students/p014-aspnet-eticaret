@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using Eticaret.Data.Entity;
+using Eticaret.SharedLibrary.Security;
 using Microsoft.EntityFrameworkCore;
 
 namespace Eticaret.Data
@@ -24,12 +25,14 @@ namespace Eticaret.Data
                 new() { Id = 5, Name = "Nike"}
             });
 
+            var salt = Hasher.GenerateSalt();
             modelBuilder.Entity<User>().HasData(new List<User>
             {
                 new() {
                     Id = 1,
                     Username = "admin",
-                    Password = "123",
+                    Password = Hasher.GenerateHash("123", salt),
+                    Salt = salt,
                     EmailAddress = "admin@eticaret.dev",
                     IsActive = true,
                     Name = "Admin",
@@ -39,13 +42,20 @@ namespace Eticaret.Data
                 new() {
                     Id = 2,
                     Username = "customer",
-                    Password = "123",
+                    Password = Hasher.GenerateHash("123", salt),
+                    Salt = salt,
                     EmailAddress = "customer@eticaret.dev",
                     IsActive = true,
                     Name = "Customer",
                     Surname = "Customer",
                     Roles = "Customer"
                 }
+            });
+
+            modelBuilder.Entity<UserAddress>().HasData(new List<UserAddress>
+            {
+                new() { Id = 1, UserId = 1, Name = "Ev", Address = "Ankara", City = "Ankara", PhoneNumber = "505" },
+                new() { Id = 2, UserId = 2, Name = "İş", Address = "İstanbul", City = "İstanbul", PhoneNumber = "532" },
             });
 
             //var products = new List<Product>();

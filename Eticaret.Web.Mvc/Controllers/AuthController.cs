@@ -1,4 +1,5 @@
 ﻿using Eticaret.Business.Services;
+using Eticaret.SharedLibrary.Security;
 using Eticaret.Web.Mvc.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -23,7 +24,7 @@ namespace Eticaret.Web.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = _userService.GetUserByLogin(model.EmailAddress, model.Password);
+                var user = _userService.GetUserByEmail(model.EmailAddress);
 
                 if (!user.IsActive)
                 {
@@ -31,7 +32,7 @@ namespace Eticaret.Web.Mvc.Controllers
                     return View(model);
                 }
 
-                if (user != null)
+                if (user != null && user.Password == Hasher.GenerateHash(model.Password, user.Salt))
                 {
                     // Kimlik Bilgileri
                     var claims = new List<Claim>
@@ -105,7 +106,10 @@ namespace Eticaret.Web.Mvc.Controllers
                     return View(model);
                 }
 
-                var userId = _userService.CreateUserAndGetId(model.EmailAddress, model.Password);
+                var salt = Hasher.GenerateSalt();
+                var hashedPassword = Hasher.GenerateHash(model.Password, salt);
+
+                var userId = _userService.CreateUserAndGetId(model.EmailAddress, hashedPassword, salt);
 
                 _userService.SendActivationEmail(userId, model.EmailAddress);
 
