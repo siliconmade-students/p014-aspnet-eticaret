@@ -1,24 +1,24 @@
 # P014 Eticaret Projesi
 
-## Modüller
+## ModÃ¼ller
 
 - Anasayfa
-    - Son Ürünler
-    - Çok Satan Ürünler
+    - Son ÃœrÃ¼nler
+    - Ã‡ok Satan ÃœrÃ¼nler
 - Kategori
-    - Kategorideki Ürünler
-- Ürün
+    - Kategorideki ÃœrÃ¼nler
+- ÃœrÃ¼n
     - Detay
 - Sepet
     - Listeleme
     - Sepete Ekleme
-    - Sepetten Kaldırma
-- Ödeme
-    - Sepeti Göster
-    - Adresi Göster
-    - Kargo Göster
-    - Ödeme İşlemi
-- Kullanıcı
-    - Kayıt
-    - Giriş
-    - Şifremi Unuttum
+    - Sepetten KaldÄ±rma
+- Ã–deme
+    - Sepeti GÃ¶ster
+    - Adresi GÃ¶ster
+    - Kargo GÃ¶ster
+    - Ã–deme Ä°ÅŸlemi
+- KullanÄ±cÄ±
+    - KayÄ±t
+    - GiriÅŸ
+    - Åifremi Unuttum
