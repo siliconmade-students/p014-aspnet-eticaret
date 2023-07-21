@@ -24,6 +24,7 @@ public class Product : BaseAuditEntity
     [Display(Name = "Stok Adedi", Prompt = "Stok adedi giriniz")]
     public int? StockAmount { get; set; }
 
+    [Display(Name = "Aktif Mi?")]
     public bool IsActive { get; set; }
 
     [Display(Name = "Kategori")]
@@ -36,7 +37,6 @@ public class Product : BaseAuditEntity
     // Navigation Properties
     //[ForeignKey("CategoryId")]
     public Category? Category { get; set; }
-
     public Brand? Brand { get; set; }
-    public List<ProductImage> ProductImages { get; set; }
+    public List<ProductImage> ProductImages { get; set; } = new();
 }
