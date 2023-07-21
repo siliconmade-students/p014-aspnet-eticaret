@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews(options =>
 {
-    // Bir filtrenin tüm isteklerde çalışması için Global Filter olarak tanımlanabilir.
+    // Bir filtrenin tÃ¼m isteklerde Ã§alÄ±ÅŸmasÄ± iÃ§in Global Filter olarak tanÄ±mlanabilir.
     options.Filters.Add<ExecutionTimeFilter>(int.MinValue);
 });
 
@@ -34,7 +34,7 @@ builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Emai
 var app = builder.Build();
 
 // Code First (1. Ensure, 2.Migration)
-// Bu kodlama ile veritabanımız proje çalıştırıldığında oluşturulmuş olur.
+// Bu kodlama ile veritabanÄ±mÄ±z proje Ã§alÄ±ÅŸtÄ±rÄ±ldÄ±ÄŸÄ±nda oluÅŸturulmuÅŸ olur.
 if (app.Environment.IsDevelopment())
 {
     using (var scope = app.Services.CreateScope())
@@ -54,11 +54,11 @@ if (!app.Environment.IsDevelopment())
 }
 else
 {
-    // Varsyılan geliştirme ortamında DeveloperExceptionPage aktif olarak çalışır.
+    // VarsyÄ±lan geliÅŸtirme ortamÄ±nda DeveloperExceptionPage aktif olarak Ã§alÄ±ÅŸÄ±r.
     //app.UseDeveloperExceptionPage();
 }
 
-#region Exception Handler/Middleware Örneği
+#region Exception Handler/Middleware Ã–rneÄŸi
 
 //var logger = app.Services.GetRequiredService<ILogger<Program>>();
 //app.ConfigureExceptionHandler(logger);
@@ -69,7 +69,7 @@ app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
 #endregion
 
-#region Middleware Örneği
+#region Middleware Ã–rneÄŸi
 //app.Use(async (context, next) =>
 //{
 //    var logDirectory = Directory.GetCurrentDirectory() + "\\Logs";
