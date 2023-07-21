@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<ProductImage>
 @inject IConfiguration configuration
 @{
-    ViewData["Title"] = "Product Images";
+    ViewData["Title"] = "Ürün Resimleri";
     var productId = Context.Request.Query["productId"];
 }
 
-<h1>Product Images</h1>
+<h1>Ürün Resimleri</h1>
 <a asp-action="Index" class="btn btn-sm btn-primary">Geri Dön</a>
 
 <div class="row">
@@ -43,5 +43,5 @@
             </tbody>
         </table>
     </div>
-    
+
 </div>

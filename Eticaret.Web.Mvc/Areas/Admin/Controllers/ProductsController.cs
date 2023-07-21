@@ -158,6 +158,8 @@ namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
             }
 
             var product = await _context.Products
+                .Include(e => e.Category)
+                .Include(e => e.Brand)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
@@ -182,7 +184,7 @@ namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
                 Value = e.Id.ToString()
             }).ToListAsync();
 
-            return View();
+            return View("Form");
         }
 
         // POST: Admin/Products/Create
@@ -198,7 +200,7 @@ namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(product);
+            return View("Form", product);
         }
 
         // GET: Admin/Products/Edit/5
@@ -228,7 +230,7 @@ namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
             }).ToListAsync();
 
 
-            return View(product);
+            return View("Form", product);
         }
 
         // POST: Admin/Products/Edit/5
@@ -263,31 +265,11 @@ namespace Eticaret.Web.Mvc.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(product);
-        }
-
-        // GET: Admin/Products/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Products == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _context.Products
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return View(product);
+            return View("Form", product);
         }
 
         // POST: Admin/Products/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (_context.Products == null)
             {

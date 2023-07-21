@@ -10,14 +10,21 @@
 </p>
 
 <form asp-action="Index" method="get">
-    <input type="text" name="query" class="form-control col-3" />
-    <button type="submit" class="btn btn-primary">Ara</button>
+    <div class="row">
+        <div class="col">
+            <input type="text" name="query" class="form-control col-3" />
+        </div>
+        <div class="col">
+            <button type="submit" class="btn btn-primary">Ara</button>
+        </div>
+    </div>
 </form>
 
 
 <table class="table">
     <thead>
         <tr>
+            <th scope="col">#</th>
             <th>
                 @Html.DisplayNameFor(model => model.Title)
                 <a asp-route-orderColumn="title" asp-route-orderDirection="az">
@@ -26,9 +33,6 @@
                 <a asp-route-orderColumn="title" asp-route-orderDirection="za">
                     <i class="fa-solid fa-arrow-down-z-a"></i>
                 </a>
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Price)
@@ -62,12 +66,12 @@
         {
             <tr>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Title)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
+                <td style="width: 130px;">
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td>
@@ -85,11 +89,11 @@
                 <td>
                     @item.Brand.Name
                 </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="ProductImages" asp-route-productId="@item.Id">Product Images</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <td style="width: 180px;">
+                    <a class="btn btn-sm btn-success" asp-action="Edit" asp-route-id="@item.Id" title="Düzenle"><i class="fa-solid fa-pencil"></i></a>
+                    <a class="btn btn-sm btn-warning" asp-action="Details" asp-route-id="@item.Id" tityle="Detay"><i class="fa-solid fa-magnifying-glass"></i></a>
+                    <a class="btn btn-sm btn-info" asp-action="ProductImages" asp-route-productId="@item.Id" title="Product Images"><i class="fa-solid fa-images"></i></a>
+                    <a class="btn btn-sm btn-danger confirm" asp-action="Delete" asp-route-id="@item.Id"><i class="fa-solid fa-trash"></i></a>
                 </td>
             </tr>
         }
@@ -104,7 +108,7 @@
 }
 <p>Toplam @totalPage sayfa içerisinde @(page). sayfayı görmektesiniz.</p>
 <nav aria-label="...">
-    
+
     <ul class="pagination">
         @if (page > 1)
         {

@@ -3,7 +3,7 @@
     * Copyright 2013-2023 Start Bootstrap
     * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-sb-admin/blob/master/LICENSE)
     */
-    // 
+// 
 // Scripts
 // 
 
@@ -23,4 +23,27 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     }
 
+    const confirms = document.querySelectorAll(".confirm");
+    confirms.forEach(element => {
+        element.addEventListener('click', function (e) {
+            e.preventDefault();
+            var urlToRedirect = e.currentTarget.getAttribute('href');
+
+            Swal.fire({
+                title: 'Emin misiniz?',
+                showCancelButton: true,
+                confirmButtonText: 'Evet',
+                cancelButtonText: `Hayır`,
+                confirmButtonColor: '#3085d6',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire('Silindi!', '', 'success');
+                    setTimeout(() => {
+                        window.location.href = urlToRedirect;
+                    }, 1000);
+
+                }
+            })
+        })
+    });
 });
